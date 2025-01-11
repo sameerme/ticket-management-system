@@ -20,7 +20,7 @@ router.get('/profile', async (req, res) => {
 
         // Fetch user data from the database
         const userQuery = await pool.query(
-            'SELECT name, email, mobile_number, username FROM users WHERE id = $1',
+            'SELECT name, email, mobile_number, username, role FROM users WHERE id = $1',
             [decoded.id]
         );
 

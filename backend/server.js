@@ -11,6 +11,7 @@ const pool = require('./db');
 const signupRoutes = require('./auth/signup');
 const signinRoutes = require('./auth/signin');
 const profileRoutes = require('./auth/profile');
+const addUserRoutes = require('./auth/adduser');
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(cors()); // Enable CORS for communication between frontend and backend
 app.use('/auth/signup', signupRoutes);
 app.use('/auth/signin', signinRoutes);
 app.use('/auth', profileRoutes);
+app.use('/auth', addUserRoutes);
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../frontend/build')));
