@@ -10,6 +10,7 @@ import {
     CircularProgress,
     Typography,
 } from '@mui/material';
+import { useAuth } from '../context/AuthContext';
 
 // Role mapping
 const ROLE_MAPPING = {
@@ -39,6 +40,7 @@ const validationSchema = Yup.object({
 
 const AddUser = () => {
     const navigate = useNavigate();
+    const { user } = useAuth(); // Fetch user data from AuthContext
 
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
         try {
@@ -46,6 +48,7 @@ const AddUser = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${user.token}`, // Include Authorization header
                 },
                 body: JSON.stringify(values),
             });

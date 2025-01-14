@@ -23,21 +23,26 @@ router.post(
 
         try {
             // Find user by username
-            const user = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+            const userQuery = await pool.query(
+                'SELECT id, username, password, role FROM users WHERE username = $1',
+                [username]
+            );
 
-            if (user.rows.length === 0) {
+            if (userQuery.rows.length === 0) {
                 return res.status(400).json({ error: 'Invalid credentials' });
             }
 
+            const user = userQuery.rows[0];
+
             // Compare passwords
-            const isMatch = await bcrypt.compare(password, user.rows[0].password);
+            const isMatch = await bcrypt.compare(password, user.password);
 
             if (!isMatch) {
                 return res.status(400).json({ error: 'Invalid credentials' });
             }
 
-            // Generate JWT
-            const token = jwt.sign({ id: user.rows[0].id }, SECRET_KEY, { expiresIn: '1h' });
+            // Generate JWT including the user's role
+            const token = jwt.sign({ id: user.id, role: user.role }, SECRET_KEY, { expiresIn: '1h' });
 
             res.status(200).json({ message: 'Logged in successfully!', token });
         } catch (error) {
