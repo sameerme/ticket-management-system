@@ -12,6 +12,7 @@ const signupRoutes = require('./auth/signup');
 const signinRoutes = require('./auth/signin');
 const profileRoutes = require('./auth/profile');
 const addUserRoutes = require('./auth/adduser');
+const ticketRoutes = require('./auth/ticket');
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use('/auth/signup', signupRoutes);
 app.use('/auth/signin', signinRoutes);
 app.use('/auth', profileRoutes);
 app.use('/auth', addUserRoutes);
+app.use('/auth', ticketRoutes);
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../frontend/build')));
